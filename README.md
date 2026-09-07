@@ -42,7 +42,7 @@ Scratch Copilot supports four AI providers. Get a free or paid API key from any 
 | **Google Gemini** | `gemini-2.0-flash` | [aistudio.google.com](https://aistudio.google.com/app/apikey) |
 | **OpenAI** | `gpt-4o` | [platform.openai.com](https://platform.openai.com/api-keys) |
 | **OpenRouter** | `openrouter/free` | [openrouter.ai](https://openrouter.ai/keys) |
-| **Groq** (default) | `llama-3.3-70b-versatile` | [console.groq.com](https://console.groq.com/keys) |
+| **Groq** (default) | `openai/gpt-oss-120b` | [console.groq.com](https://console.groq.com/keys) |
 
 ⚠️ Models change quickly and may differ in the future
 
