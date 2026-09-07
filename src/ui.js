@@ -790,9 +790,7 @@
     const keyVal = refs.apiKeyInput.value.trim();
     const modelVal = refs.modelInput.value.trim();
 
-    if (keyVal) {
-      window.ScratchCopilot?.aiClient?.setApiKey?.(keyVal, providerId);
-    }
+    window.ScratchCopilot?.aiClient?.setApiKey?.(keyVal, providerId);
     if (modelVal) {
       window.ScratchCopilot?.aiClient?.setModel?.(modelVal, providerId);
     } else {
