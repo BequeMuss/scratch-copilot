@@ -44,6 +44,8 @@ Scratch Copilot supports four AI providers. Get a free or paid API key from any 
 | **OpenRouter** | `openrouter/free` | [openrouter.ai](https://openrouter.ai/keys) |
 | **Groq** (default) | `llama-3.3-70b-versatile` | [console.groq.com](https://console.groq.com/keys) |
 
+⚠️ Models change quickly and may differ in the future
+
 - **Groq** is a great free starting point with very fast responses.
 - **OpenRouter** gives you access to hundreds of models (including Claude, GPT, Llama, and more) through a single key — set any model ID in the Model field.
 - **Gemini** and **OpenAI** require accounts with their respective platforms.
