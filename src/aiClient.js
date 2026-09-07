@@ -58,7 +58,7 @@
     groq: {
       id: "groq",
       label: "Groq",
-      defaultModel: "llama-3.3-70b-versatile",
+      defaultModel: "openai/gpt-oss-120b",
       endpoint: () => "https://api.groq.com/openai/v1/chat/completions",
       keyPlaceholder: "gsk_...",
       helpUrl: "https://console.groq.com/keys",
