@@ -68,7 +68,7 @@
     },
   };
 
-  const DEFAULT_PROVIDER = "groq";
+  const DEFAULT_PROVIDER = localStorage.getItem(STORAGE.key("gemini")) ? "gemini" : "groq";
 
   // ─── Settings helpers ────────────────────────────────────────────────────
   function getProvider() {
