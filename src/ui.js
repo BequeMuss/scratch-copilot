@@ -749,13 +749,38 @@
     updateProviderUI(current);
   }
 
+  // Only https: URLs from provider config may end up in an href attribute.
+  // Defense in depth against javascript:/data: URLs if the config is tampered
+  // with (content scripts run in the MAIN world, so window.ScratchCopilot is
+  // writable by any other script on the page).
+  function isSafeHttpsUrl(value) {
+    if (typeof value !== "string" || !value) return false;
+    try {
+      return new URL(value).protocol === "https:";
+    } catch (_) {
+      return false;
+    }
+  }
+
   function updateProviderUI(providerId) {
     const providers = window.ScratchCopilot?.aiClient?.getProviders?.() || [];
     const p = providers.find(x => x.id === providerId);
     if (!p) return;
     refs.apiKeyLabel.textContent = `${p.label} API Key`;
     refs.apiKeyInput.placeholder = p.keyPlaceholder;
-    refs.apiKeyHint.innerHTML = `Get a key at <a href="${p.helpUrl}" target="_blank" rel="noopener">${p.helpLabel}</a>. Stored only in this browser.`;
+    // Build the hint via DOM APIs instead of innerHTML. Provider fields come
+    // back through the public window.ScratchCopilot API and must be treated
+    // as untrusted data (see isSafeHttpsUrl above).
+    refs.apiKeyHint.replaceChildren();
+    refs.apiKeyHint.append("Get a key at ");
+    const link = document.createElement("a");
+    link.textContent = p.helpLabel;
+    if (isSafeHttpsUrl(p.helpUrl)) {
+      link.href = p.helpUrl;
+      link.target = "_blank";
+      link.rel = "noopener";
+    }
+    refs.apiKeyHint.append(link, ". Stored only in this browser.");
     refs.modelInput.placeholder = p.defaultModel;
   }
 
@@ -818,7 +843,15 @@
       refs.statusBar.classList.add("error");
 
       if (text.includes("VM not detected")) {
-        refs.statusBar.innerHTML = `${text} — <span style="text-decoration:underline;cursor:pointer">Retry?</span>`;
+        // Status text can echo remote API error bodies — render via DOM APIs,
+        // never innerHTML, to keep untrusted text inert.
+        refs.statusBar.replaceChildren();
+        refs.statusBar.append(`${text} — `);
+        const retry = document.createElement("span");
+        retry.textContent = "Retry?";
+        retry.style.textDecoration = "underline";
+        retry.style.cursor = "pointer";
+        refs.statusBar.appendChild(retry);
         refs.statusBar.style.cursor = "pointer";
         refs.statusBar.onclick = () => {
           updateStatus("busy", "Retrying detection...");
